@@ -1,0 +1,60 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const promoRouter = express.Router();
+
+promoRouter.use(bodyParser.json());
+
+//This is a middleware that will apply to all requests made to "promos" resource
+promoRouter.route("/")
+.all((req, res, next) =>{
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    next();
+})
+.get((req, res, next)=>{
+    res.send("Will send all the promos to you!");
+})
+//POST creates a new resource
+.post((req, res, next)=>{
+    res.end("I will add the promo: "+ req.body.name+
+    " with details: "+ req.body.description);
+})
+.put((req, res, next)=>{
+    res.statusCode = 403;
+    res.end("PUT operation not supported on /promos");
+})
+.delete((req, res, next)=>{
+    res.end("Deleting all the promos!");
+});
+
+
+//For promoId's
+promoRouter.route("/:promoId")
+.all((req, res, next)=>{
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    next();
+})
+.get((req, res, next)=>{
+    res.send("Will send details of the promo: "
+        + req.params.promoId+ " to you.");
+})
+.post((req, res, next)=>{
+    res.statusCode = 403;
+    res.end("POST operation not supported on /promos/"
+        + req.params.promoId);
+})
+.put((req, res, next)=>{
+    res.write("Updating the promo: " + req.params.promoId + " \n");
+    res.end("Will update the promo: "+ req.body.name +
+        " with details "+ req.body.description);
+})
+.delete((req, res, next)=>{
+    res.end("Deleting promo: "+ req.params.promoId);
+})
+
+
+
+module.exports = promoRouter;
+
