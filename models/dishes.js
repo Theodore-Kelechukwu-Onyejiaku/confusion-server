@@ -24,7 +24,7 @@ const commentSchema = new Schema({
 })
 
 
-//unique filed means no to docuements should have the same name
+//unique field means no to docuements should have the same name
 const dishSchema = new Schema({
     name: {type: String, required: true, unique: true},
     description: {type: String, required: true},
